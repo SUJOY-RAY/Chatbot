@@ -1,16 +1,11 @@
-import asyncio
-import tempfile
-from fastapi import FastAPI, Depends, File, HTTPException, Request, Form, UploadFile, WebSocket
+from fastapi import FastAPI, Depends, File, Request, Form, UploadFile, WebSocket
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-import librosa
-import numpy as np
-from requests import request
 from sqlalchemy.orm import Session
 from ipconverter import ip_to_location
 from database import Query, SessionLocal, init_db
 from crud import create_user, get_user_by_token, save_query
-from sentiment import analyze_audio, analyze_sentiment
+from sentiment import analyze_sentiment
 import os
 
 init_db()
