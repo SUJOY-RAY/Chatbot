@@ -7,13 +7,6 @@
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-        const sessionToken = localStorage.getItem("session_token");
-        if (!sessionToken) {
-            // Redirect to /register if no token
-            window.location.href = "/register";
-        }
-    </script>
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
