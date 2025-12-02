@@ -1,6 +1,5 @@
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-import torch.nn.functional as F
 
 nltk.download('vader_lexicon')
 
