@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <title>Sentiment Analysis</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script>
         const sessionToken = localStorage.getItem("session_token");
         if (!sessionToken) {
-            // Redirect to /register if no token
             window.location.href = "/register";
         }
     </script>
@@ -24,7 +22,6 @@
             Sentiment Analysis
         </h2>
 
-        <!-- Error message -->
         {% if error %}
         <p class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-center">
             {{ error | safe }}
@@ -32,11 +29,17 @@
 
         {% endif %}
 
-        <!-- Form -->
         <form action="/sentiment" method="post" class="flex flex-col gap-4">
 
-            <input type="text" name="text" placeholder="Enter text" value="{{ text or '' }}"
-                class="border border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="relative">
+                <input type="text" id="textInput" name="text" placeholder="Enter text" value="{{ text or '' }}" class="border border-gray-300 rounded-xl px-4 py-3 text-lg w-full pr-12
+            focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <button type="button" id="micBtn"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-blue-600">
+                    🎤
+                </button>
+            </div>
 
             <input type="hidden" name="token" id="tokenInput">
 
@@ -45,6 +48,8 @@
                 Analyze
             </button>
         </form>
+
+
 
         {% if sentiment %}
         <div class="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-5">
@@ -62,6 +67,58 @@
         if (savedToken) {
             document.getElementById("tokenInput").value = savedToken;
         }
+    </script>
+
+    <script>
+        const micBtn = document.getElementById("micBtn");
+        const textInput = document.getElementById("textInput");
+
+        let recognition;
+        let listening = false;
+
+        if ("webkitSpeechRecognition" in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = "en-US";
+
+            recognition.onresult = function (event) {
+                let transcript = event.results[0][0].transcript.trim();
+
+                if (textInput.value.length > 0 && !textInput.value.endsWith(" ")) {
+                    textInput.value += " ";
+                }
+
+                textInput.value += transcript.charAt(0).toUpperCase() + transcript.slice(1);
+            };
+
+            recognition.onerror = function (event) {
+                console.log("Speech error:", event.error);
+                micBtn.textContent = "🎤";
+                listening = false;
+            };
+
+            recognition.onend = function () {
+                micBtn.textContent = "🎤";
+                listening = false;
+            };
+        } else {
+            alert("Speech recognition not supported. Please use Chrome or Edge.");
+        }
+
+        micBtn.addEventListener("click", () => {
+            if (!recognition) return;
+
+            if (!listening) {
+                recognition.start();
+                listening = true;
+                micBtn.textContent = "🎙️";
+            } else {
+                recognition.stop();
+                listening = false;
+                micBtn.textContent = "🎤";
+            }
+        });
     </script>
 </body>
 
