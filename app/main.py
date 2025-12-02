@@ -130,23 +130,6 @@ def sentiment_analysis(
         "error": None
     })
 
-# @app.get("/sentiment-map")
-# def sentiment_map(db: Session = Depends(get_db)):
-#     data = db.query(Query).all()
-
-#     result = []
-#     for q in data:
-#         result.append({
-#             "lat": q.latitude,
-#             "lng": q.longitude,
-#             "sentiment": q.sentiment,
-#             "score": float(q.score),
-#             "city": q.city,
-#             "country": q.country,
-#             "text": q.text
-#         })
-#     return result
-
 @app.get("/map")
 def map_page(request: Request):
     return templates.TemplateResponse("sentiment_map.html", {"request": request})

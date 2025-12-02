@@ -3,18 +3,12 @@ import nltk
 from transformers import AutoFeatureExtractor, AutoModelForAudioClassification
 import torch, librosa, numpy as np
 import torch.nn.functional as F
-import pyaudio
 
 nltk.download('vader_lexicon')
 
 sia = SentimentIntensityAnalyzer()
 extractor = AutoFeatureExtractor.from_pretrained("superb/wav2vec2-base-superb-er")
 model = AutoModelForAudioClassification.from_pretrained("superb/wav2vec2-base-superb-er")
-
-CHUNK = 16000         # 1 second of audio (16kHz)
-FORMAT = pyaudio.paFloat32
-CHANNELS = 1
-RATE = 16000
 
 def analyze_sentiment(text: str):
     score = sia.polarity_scores(text)['compound']
@@ -30,41 +24,6 @@ def analyze_sentiment(text: str):
         sentiment = "Very Negative"
     return {"sentiment": sentiment, "score": score}
 
-
-# def analyse_voice_emotion(audio_file):
-#     # Load audio
-#     audio, sr = librosa.load(audio_file, sr=16000, mono=True)
-
-#     # Preprocess for model
-#     inputs = extractor(
-#         audio,
-#         sampling_rate=16000,
-#         return_tensors="pt",
-#         padding=True,
-#         truncation=True
-#     )
-
-#     inputs = {k: v.to(torch.device) for k, v in inputs.items()}
-
-#     # Forward pass
-#     with torch.no_grad():
-#         logits = model(**inputs).logits
-
-#     # Softmax for probability
-#     probs = F.softmax(logits, dim=-1).cpu().numpy()[0]
-
-#     # Highest probability
-#     emotion_id = int(np.argmax(probs))
-#     label = model.config.id2label[emotion_id]
-#     score = float(probs[emotion_id])
-
-#     return {
-#         "emotion": label,
-#         "confidence": score,
-#         "probabilities": {
-#             model.config.id2label[i]: float(probs[i]) for i in range(len(probs))
-#         }
-#     }
 
 def safe_rms(audio):
     # 1. Convert NaNs / infs to 0
