@@ -1,14 +1,10 @@
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-from transformers import AutoFeatureExtractor, AutoModelForAudioClassification
-import torch, librosa, numpy as np
 import torch.nn.functional as F
 
 nltk.download('vader_lexicon')
 
 sia = SentimentIntensityAnalyzer()
-extractor = AutoFeatureExtractor.from_pretrained("superb/wav2vec2-base-superb-er")
-model = AutoModelForAudioClassification.from_pretrained("superb/wav2vec2-base-superb-er")
 
 def analyze_sentiment(text: str):
     score = sia.polarity_scores(text)['compound']
