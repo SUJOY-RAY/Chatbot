@@ -1,17 +1,23 @@
 import requests
 
-def ip_to_location(ip):
+def ip_to_location(ip: str = None):
     try:
-        url = "http://ip-api.com/json/{ip}"
-        resp = requests.get(url)
-        print(resp)
-        if resp["status"] == "success":
+        url = f"http://ip-api.com/json/{ip or ''}"  # empty query uses caller's IP
+        params = {"fields": "status,message,country,city,zip,lat,lon"}  # limit data
+        resp = requests.get(url, params=params, timeout=5)
+        data = resp.json()
+
+        if data.get("status") == "success":
             return {
-                "lat": resp["lat"],
-                "lon": resp["lon"],
-                "country": resp["country"],
-                "city": resp["city"],
-                "zip": resp["zip"]
+                "lat": data.get("lat"),
+                "lon": data.get("lon"),
+                "country": data.get("country"),
+                "city": data.get("city"),
+                "zip": data.get("zip")
             }
-    except:
+        else:
+            print("IP lookup failed:", data.get("message"))
+            return None
+    except Exception as e:
+        print("IP lookup exception:", e)
         return None
