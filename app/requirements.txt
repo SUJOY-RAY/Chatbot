@@ -11,6 +11,3 @@ torch
 librosa
 transformers
 python-multipart
-whispercpp
-pyaudio
-websockets
