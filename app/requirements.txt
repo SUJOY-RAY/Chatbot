@@ -7,5 +7,10 @@ sqlalchemy
 databases
 jinja2
 nltk
-
+torch
+librosa
+transformers
 python-multipart
+whispercpp
+pyaudio
+websockets

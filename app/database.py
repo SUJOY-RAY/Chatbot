@@ -1,9 +1,8 @@
-import datetime
-from sqlalchemy import DateTime, ForeignKey, create_engine, Column, Integer, String
+from datetime import datetime, timezone
+from sqlalchemy import DateTime, Float, ForeignKey, create_engine, Column, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
 DATABASE_URL = "sqlite:///./users.db"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -21,13 +20,22 @@ class User(Base):
 
 class Query(Base):
     __tablename__ = "queries"
+
     id = Column(Integer, primary_key=True, index=True)
     text = Column(String)
     sentiment = Column(String)
     score = Column(String)
-    time = Column(DateTime, default=datetime.UTC)
+    time = Column(DateTime, default=datetime.now())
+
     user_id = Column(Integer, ForeignKey("users.id"))
-    ip_address = Column(String)  
+    ip_address = Column(String)
+
+    # ADD THESE (location fields)
+    latitude = Column(Float)
+    longitude = Column(Float)
+    country = Column(String)
+    city = Column(String)
+    zip = Column(String)
     user = relationship("User", back_populates="queries")
 
 def init_db():
