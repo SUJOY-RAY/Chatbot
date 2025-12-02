@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white shadow-lg rounded-2xl p-10 max-w-xl w-full text-center">
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">
+            Welcome to the Sentiment Analysis App!
+        </h1>
+
+        <p class="text-gray-600 mb-8">
+            Get started.
+        </p>
+
+        <div class="flex flex-col gap-4">
+
+            <a href="/sentiment_form"
+                class="px-5 py-3 bg-blue-600 text-white rounded-xl text-lg font-medium hover:bg-blue-700 transition">
+                Sentiment Analysis
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Store session token -->
+    <script>
+        const token = "{{ session_token }}";
+        if (token) {
+            localStorage.setItem("session_token", token);
+            console.log("Session token saved:", token);
+        }
+    </script>
+
+</body>
+
+</html>
