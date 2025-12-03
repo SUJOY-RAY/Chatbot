@@ -1,7 +1,4 @@
 # Sentiment Analysis Web App
-
-The app allows users to:
-
 The application provides the following capabilities:
 
 - **User Registration**
