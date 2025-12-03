@@ -43,11 +43,11 @@ IP address stored at registration.
 3. Returns compound score + confidence score.
 
 4. Saves detailed VADER scores (JSON).
-- Compound score
+    - Compound score
 
-- Confidence score (abs(compound))
+    - Confidence score (abs(compound))
 
-- Raw VADER breakdown (JSON)
+    - Raw VADER breakdown (JSON)
 
 ## 🌍 IP → Location Lookup
 
