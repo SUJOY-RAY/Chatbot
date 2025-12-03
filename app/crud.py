@@ -11,7 +11,7 @@ def create_user(db: Session, username: str, ip_address: str):
         username=username,
         session_token=token,
         ip_address=ip_address,
-        time=datetime.now()
+        created_at=datetime.now()
     )
     db.add(user)
     db.commit()
@@ -21,25 +21,34 @@ def create_user(db: Session, username: str, ip_address: str):
 def get_user_by_token(db: Session, token: str):
     return db.query(User).filter(User.session_token == token).first()
 
-def save_query(db, user, text, sentiment, score, ip_address):
+def save_query(db, user, text, sentiment, score, ip_address, confidence, details):
+    """
+    Save a new Query in the database with optional geolocation data.
+    """
     loc = ip_to_location(ip_address)
+
     db_query = Query(
         text=text,
         sentiment=sentiment,
-        score=str(score),
+        score=score,  # store as float, not string
         time=datetime.now(timezone.utc),
-        
+        confidence=confidence,  # make sure Query model has a Float column for this
+        details=details,
         user=user,
         ip_address=ip_address,
-        
-        latitude=loc["lat"] if loc else None,
-        longitude=loc["lon"] if loc else None,
-        country=loc["country"] if loc else None,
-        city=loc["city"] if loc else None,
-        zip=loc["zip"] if loc else None
+
+        latitude=loc.get("lat") if loc else None,
+        longitude=loc.get("lon") if loc else None,
+        country=loc.get("country") if loc else None,
+        city=loc.get("city") if loc else None,
+        region=loc.get("region") if loc else None,  # optional
+        # zip=loc.get("zip") if loc else None  # only if your model has zip
     )
+
     db.add(db_query)
     db.commit()
     db.refresh(db_query)
+
     return db_query
+
 

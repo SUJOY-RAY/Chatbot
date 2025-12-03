@@ -4,6 +4,8 @@
 <head>
     <title>Sentiment Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <style>
@@ -14,7 +16,7 @@
 </head>
 
 <body>
-    <h2>Sentiment Heatmap</h2>
+    {% include "navbar.html" %}
 
     <div id="map"></div>
 
@@ -29,9 +31,8 @@
             .then(res => res.json())
             .then(points => {
 
-                console.log("Points:", points); // Debug
+                console.log("Points:", points);
 
-                // ---- GROUP POINTS BY LAT/LNG ----
                 let groups = {};
                 points.forEach(p => {
                     let key = `${p.lat},${p.lng}`;
@@ -39,19 +40,16 @@
                     groups[key].push(p);
                 });
 
-                // ---- SCATTER OVERLAPPING GROUPS ----
                 Object.values(groups).forEach(group => {
 
                     if (group.length === 1) {
-                        // Only one → no scatter
                         let p = group[0];
                         placeMarker(p.lat, p.lng, p);
                         return;
                     }
 
-                    // Many points → scatter them in a circle
                     let angleStep = (2 * Math.PI) / group.length;
-                    let radius = 0.002;   // adjust scatter distance here
+                    let radius = 0.002;
 
                     group.forEach((p, i) => {
                         let angle = i * angleStep;
@@ -77,4 +75,5 @@
     </script>
 
 </body>
+
 </html>
