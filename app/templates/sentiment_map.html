@@ -1,98 +1,46 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Sentiment Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    <script src="https://unpkg.com/overlapping-marker-spiderfier-leaflet/oms.min.js"></script>
 
     <style>
-        #map {
-            height: 90vh;
-        }
+        #map { height: 90vh; }
     </style>
 </head>
 
 <body>
-    <h2>Sentiment Distribution map</h2>
+<h2>Sentiment Heatmap</h2>
 
-    <div id="map"></div>
+<div id="map"></div>
 
-    <!-- <script>
-        let map = L.map('map').setView([20, 0], 2);  // world view
+<script>
+    let map = L.map('map').setView([20, 0], 2);  // world view
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-        }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(map);
 
-        fetch("/sentiment-map")
-            .then(res => res.json())
-            .then(points => {
-                points.forEach(p => {
-                    L.marker([p.lat, p.lng])
-                        .addTo(map)
-                        .bindPopup(`
+    fetch("/sentiment-map")
+        .then(res => res.json())
+        .then(points => {
+
+            console.log("Points:", points); // Debug
+
+            points.forEach(p => {
+                L.marker([p.lat, p.lng])
+                    .addTo(map)
+                    .bindPopup(`
                         <b>${p.sentiment}</b><br>
                         Score: ${p.score}<br>
                         City: ${p.city}<br>
                         Country: ${p.country}<br>
                         Text: ${p.text}
                     `);
-                });
             });
-    </script> -->
-
-    <script>
-        let map = L.map('map').setView([20, 0], 2);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-        }).addTo(map);
-
-        // 🕷 Initialize Spiderfier
-        let oms = new OverlappingMarkerSpiderfier(map, {
-            keepSpiderfied: true,
-            circleSpiralSwitchover: 20,
-            spiralFootSeparation: 40,
-            spiralLengthStart: 30,
-            spiralLengthFactor: 6,
-            circleFootSeparation: 30,
-            nearbyDistance: 20
         });
-
-        // 🟦 Optional: make spiderfied markers highlight
-        let popup = new L.Popup();
-        oms.addListener('click', function (marker) {
-            popup.setContent(marker.desc);
-            popup.setLatLng(marker.getLatLng());
-            map.openPopup(popup);
-        });
-
-        fetch("/sentiment-map")
-            .then(res => res.json())
-            .then(points => {
-                points.forEach(p => {
-                    let marker = L.marker([p.lat, p.lng]);
-                    marker.desc = `
-                    <b>${p.sentiment}</b><br>
-                    Score: ${p.score}<br>
-                    City: ${p.city}<br>
-                    Country: ${p.country}<br>
-                    Text: ${p.text}
-                `;
-
-                    marker.bindPopup(marker.desc);
-                    marker.addTo(map);
-                    oms.addMarker(marker);   // <-- 🕷 add to Spiderfier
-                });
-            });
-    </script>
-
+</script>
 
 </body>
-
 </html>

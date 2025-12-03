@@ -137,8 +137,8 @@ def sentiment_map(db: Session = Depends(get_db)):
     result = []
     for q in data:
         result.append({
-            "lat": q.latitude if q.latitude is not None else 0,
-            "lng": q.longitude if q.longitude is not None else 0,
+            "lat": q.latitude,
+            "lng": q.longitude,
             "sentiment": q.sentiment if q.sentiment else "Unknown",
             "score": float(q.score) if q.score is not None else 0.0,
             "city": q.city if q.city else "Unknown City",
