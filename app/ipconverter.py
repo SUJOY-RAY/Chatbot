@@ -2,8 +2,10 @@ import requests
 
 def ip_to_location(ip: str = None):
     try:
-        url = f"http://ip-api.com/json/{ip or ''}"  # empty query uses caller's IP
-        params = {"fields": "status,message,country,city,zip,lat,lon"}  # limit data
+        url = f"http://ip-api.com/json/{ip or ''}"  
+        params = {
+            "fields": "status,message,country,city,zip,lat,lon"
+        }  
         resp = requests.get(url, params=params, timeout=5)
         data = resp.json()
 
