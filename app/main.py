@@ -1,11 +1,14 @@
+import io
 from fastapi import FastAPI, Depends, File, Request, Form, UploadFile, WebSocket
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from database import Query, SessionLocal, init_db
+from database import Query, SessionLocal, User, init_db
 from crud import create_user, get_user_by_token, save_query, chat_history
 from sentiment import analyze_sentiment
 import os
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
 init_db()
 app = FastAPI()
@@ -47,7 +50,7 @@ def sentiment_form(request: Request):
 
 
 def render_error(request: Request, message: str):
-    return templates.TemplateResponse("components/error.html", {
+    return templates.TemplateResponse("/components/error.html", {
         "request": request,
         "error": message
     })
@@ -145,6 +148,71 @@ def delete_query(query_id: int, token: str, db: Session = Depends(get_db)):
     db.delete(query)
     db.commit()
     return {"success": True}
+
+@app.get("/trend_page", response_class=HTMLResponse)
+def trend_page(request: Request):
+    return templates.TemplateResponse("trend.html", {"request": request})
+
+@app.get("/trend")
+def trend(token: str, db: Session = Depends(get_db)):
+    # Fetch history
+    history = (
+        db.query(Query)
+        .join(User)
+        .filter(User.session_token == token)
+        .order_by(Query.time.asc())
+        .all()
+    )
+
+    if not history:
+        return {"error": "No history found"}
+
+    # Build data lists
+    times = [q.time for q in history]
+    scores = [q.score for q in history]
+
+    # Build location label (country + city)
+    locations = [
+        f"{q.country or 'Unknown'} - {q.city or 'Unknown'}"
+        for q in history
+    ]
+
+    # Unique labels
+    unique_locations = list(set(locations))
+
+    # Generate unique colors
+    cmap = cm.get_cmap("tab10", len(unique_locations))
+    color_map = {loc: cmap(i) for i, loc in enumerate(unique_locations)}
+
+    # Plot
+    plt.figure(figsize=(12, 6))
+    plt.title("Sentiment Trend Colored by Location")
+    plt.xlabel("Time")
+    plt.ylabel("Sentiment Score (Compound)")
+    plt.grid(True)
+
+    for i, q in enumerate(history):
+        plt.scatter(
+            q.time,
+            q.score,
+            color=color_map[locations[i]],
+            s=60,
+            label=locations[i] if i == locations.index(locations[i]) else ""
+        )
+
+    # Draw the line connecting points
+    plt.plot(times, scores, linestyle="--", color="gray", alpha=0.4)
+
+    # Legend
+    plt.legend(title="Country - City", fontsize=8)
+
+    # Convert to PNG
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png", dpi=150, bbox_inches="tight")
+    buf.seek(0)
+    plt.close()
+
+    return StreamingResponse(buf, media_type="image/png")
 
 # ---------- Home ----------
 @app.get("/", response_class=HTMLResponse)

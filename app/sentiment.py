@@ -1,25 +1,3 @@
-# from nltk.sentiment.vader import SentimentIntensityAnalyzer
-# import nltk
-
-# nltk.download('vader_lexicon')
-
-# sia = SentimentIntensityAnalyzer()
-
-# def analyze_sentiment(text: str):
-#     score = sia.polarity_scores(text)['compound']
-#     if score >= 0.6:
-#         sentiment = "Very Positive"
-#     elif score >= 0.05:
-#         sentiment = "Positive"
-#     elif score > -0.05 and score < 0.05:
-#         sentiment = "Neutral"
-#     elif score <= -0.05 and score > -0.6:
-#         sentiment = "Negative"
-#     else:
-#         sentiment = "Very Negative"
-#     return {"sentiment": sentiment, "score": score}
-
-
 import re
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
@@ -56,7 +34,6 @@ def classify_sentiment(score: float) -> str:
         return "Negative"
     else:
         return "Very Negative"
-
 
 def analyze_sentiment(text: str):
     """Improved sentiment logic for real-world, noisy inputs."""

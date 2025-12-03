@@ -2,9 +2,9 @@ fastapi
 uvicorn
 pydantic
 vaderSentiment
-pandas
 sqlalchemy
 databases
 jinja2
 nltk
 python-multipart
+matplotlib

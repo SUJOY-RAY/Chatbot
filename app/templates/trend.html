@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Trend</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script>
+        // Redirect if no token
+        const token = localStorage.getItem("session_token");
+        if (!token) {
+            window.location.href = "/register";
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    {% include "/components/navbar.html" %}
+
+    <div class="container mx-auto px-4 py-10 max-w-4xl">
+
+        <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+            Sentiment Trend by Location
+        </h1>
+
+        <div class="bg-white shadow-lg rounded-2xl p-6">
+
+            <!-- Reload button -->
+            <div class="flex justify-end mb-4">
+                <button onclick="loadTrend()"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition font-medium">
+                    Reload Chart
+                </button>
+            </div>
+
+            <!-- Chart container -->
+            <div id="chart-container" class="w-full">
+                <img id="trendChart" src="" alt="Sentiment Trend Chart"
+                    class="rounded-xl border shadow-md mx-auto" />
+            </div>
+
+            <p id="errorMessage" class="text-center text-red-600 mt-4 hidden"></p>
+
+        </div>
+    </div>
+
+    <script>
+        function loadTrend() {
+            const token = localStorage.getItem("session_token");
+
+            if (!token) {
+                document.getElementById("errorMessage").textContent =
+                    "Missing session token. Please register again.";
+                document.getElementById("errorMessage").classList.remove("hidden");
+                return;
+            }
+
+            // Set image SRC to backend graph
+            const img = document.getElementById("trendChart");
+            img.src = `/trend?token=${token}&t=` + Date.now(); // cache-buster
+        }
+
+        // Load chart on page load
+        loadTrend();
+    </script>
+
+</body>
+</html>

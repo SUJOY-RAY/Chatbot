@@ -13,6 +13,7 @@ def create_user(db: Session, username: str, ip_address: str):
         ip_address=ip_address,
         created_at=datetime.now()
     )
+    
     db.add(user)
     db.commit()
     db.refresh(user)
