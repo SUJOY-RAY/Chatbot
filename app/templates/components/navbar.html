@@ -1,4 +1,4 @@
-<nav class="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
+<nav class="bg-gray-900 text-white px-6 py-4 flex items-center justify-between shadow-lg rounded-2xl overflow-hidden">
     <a href="/" class="text-2xl font-bold">Sentiment Detector</a>
 
     <ul class="flex space-x-6">
@@ -17,7 +17,7 @@
     if (token) {
         link.href = `/history?token=${encodeURIComponent(token)}`;
     } else {
-        link.href = "/login";
+        link.href = "/login";  
         link.classList.add("text-gray-500");
     }
 </script>

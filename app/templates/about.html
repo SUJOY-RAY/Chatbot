@@ -7,62 +7,88 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100 min-h-screen p-4">
+
+    <!-- Navbar stays OUTSIDE styling -->
     {% include "/components/navbar.html" %}
 
-    <header class="bg-blue-600 text-white py-8 shadow">
+    <div class="w-full max-w-xl mx-auto space-y-6 pt-6">  <!-- NARROW CENTERED COLUMN -->
 
-        <div class="container mx-auto text-center">
-            <h1 class="text-3xl font-bold">About Sentiment Analyzer</h1>
-            <p class="mt-2 text-blue-100">Analyze text sentiment with accuracy and ease</p>
+        <!-- Header Card -->
+        <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
+            <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-10 px-6 text-center">
+                <h1 class="text-3xl font-extrabold mb-2">About Sentiment Analyzer</h1>
+                <p class="text-lg text-blue-100">
+                    Analyze and understand text sentiment with precision and ease
+                </p>
+            </header>
         </div>
 
-    </header>
+        <!-- Main Content Card -->
+        <div class="bg-white shadow-lg rounded-2xl p-6">
 
-    <main class="container mx-auto px-4 py-12">
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Project Overview</h2>
-            <p class="text-gray-700 leading-relaxed">
-                This project is a web application built with <strong>FastAPI</strong> that allows users to submit text
-                and get detailed sentiment analysis results.
-                It uses the <strong>VADER Sentiment Analyzer</strong> from NLTK to classify text into categories like
-                <em>Very Positive</em>, <em>Positive</em>, <em>Neutral</em>, <em>Negative</em>, and <em>Very
-                    Negative</em>.
-            </p>
-            <p class="text-gray-700 leading-relaxed mt-4">
-                Additionally, the application can act as an <strong>API</strong> to programmatically test comments or
-                text for sentiment analysis, making it useful for integration with other applications or automated
-                workflows.
-            </p>
-        </section>
+            <main class="space-y-10">
 
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Key Features</h2>
-            <ul class="list-disc list-inside space-y-2 text-gray-700">
-                <li>User registration with session tokens for secure access and rate limiting.</li>
-                <li>Submit text and receive detailed sentiment analysis with a confidence score.</li>
-                <li>Tracks user IP and converts it to location for map visualization.</li>
-                <li>Stores past queries in a database for history and analytics.</li>
-                <li>Interactive map view of sentiment data across different locations.</li>
-                <li>Clean, responsive interface powered by <strong>Tailwind CSS</strong>.</li>
-            </ul>
-        </section>
+                <!-- Project Overview -->
+                <section>
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-3">Project Overview</h2>
+                    <p class="text-gray-700 leading-relaxed">
+                        Sentiment Analyzer is a modern web application developed with
+                        <strong>FastAPI</strong> and powered by <strong>NLTK's VADER Sentiment Analyzer</strong>.
+                        It provides real-time emotional classification such as
+                        <em>Very Positive</em>, <em>Positive</em>, <em>Neutral</em>,
+                        <em>Negative</em>, and <em>Very Negative</em>.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mt-3">
+                        It also offers a clean <strong>API layer</strong> so developers can integrate
+                        automatic sentiment detection into their own applications and workflows.
+                    </p>
+                </section>
 
-        <section>
-            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Get Started</h2>
-            <p class="text-gray-700 leading-relaxed mb-4">
-                To get started, you can <a href="/" class="text-blue-600 hover:underline">return to the home page</a> or
-                <a href="/register" class="text-blue-600 hover:underline">register a new account</a> to start analyzing
-                text.
-            </p>
-        </section>
-    </main>
+                <!-- Key Features -->
+                <section>
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-3">Key Features</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><strong>User authentication</strong> with session tokens.</li>
+                        <li><strong>Real-time sentiment analysis</strong> with confidence scores.</li>
+                        <li><strong>IP → Location mapping</strong> for sentiment-based geovisualization.</li>
+                        <li><strong>Query history</strong> stored for analytics and insights.</li>
+                        <li><strong>Interactive map view</strong> of emotions across cities and countries.</li>
+                        <li><strong>Responsive UI</strong> powered by Tailwind CSS.</li>
+                    </ul>
+                </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-200 py-6 mt-12 text-center text-gray-600">
-        &copy; 2025 Sentiment Analyzer. All rights reserved.
-    </footer>
+                <!-- Use Cases -->
+                <section>
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-3">Benefits & Use Cases</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Businesses analyzing customer feedback.</li>
+                        <li>Writers and creators checking emotional tone.</li>
+                        <li>Developers building ML-powered applications.</li>
+                        <li>Researchers studying sentiment patterns.</li>
+                    </ul>
+                </section>
+
+                <!-- Get Started -->
+                <section>
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-3">Get Started</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><a href="/" class="text-blue-600 hover:underline">Go to Home</a></li>
+                        <li><a href="/register" class="text-blue-600 hover:underline">Create an Account</a></li>
+                    </ul>
+                </section>
+
+            </main>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 py-4">
+            &copy; 2025 Sentiment Analyzer<br>
+            Made with 🔍 by <strong>Sujoy Ray</strong>
+        </footer>
+
+    </div>
 
 </body>
-
 </html>

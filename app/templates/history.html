@@ -14,7 +14,7 @@
     </script>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen p-4">
 
     {% include "/components/navbar.html" %}
 
@@ -43,7 +43,7 @@
                 </details>
 
                 <button onclick="deleteQuery('{{ q.id }}')"
-                    class="mt-2 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
+                    class="mt-2 px-3 py-1 bg-gradient-to-r from-red-600 to-indigo-600 text-white rounded hover:bg-red-700 cursor-pointer">
                     Delete
                 </button>
             </div>

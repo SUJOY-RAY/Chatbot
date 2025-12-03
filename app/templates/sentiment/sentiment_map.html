@@ -22,10 +22,10 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-100 min-h-screen p-4">
     {% include "/components/navbar.html" %}
 
-    <div id="map"></div>
+    <div id="map" class="py-4"></div>
 
     <script>
         let map = L.map('map').setView([20, 0], 2);
