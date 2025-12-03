@@ -166,7 +166,7 @@ nltk.download("vader_lexicon")
 
 5. Run the app
 
-``` python CLI
+``` powershell
 uvicorn main:app --reload
 ```
 
