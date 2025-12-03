@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>History - Sentiment Analysis</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        const sessionToken = localStorage.getItem("session_token");
+        if (!sessionToken) {
+            window.location.href = "/register";
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    {% include "navbar.html" %}
+
+    <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
+        <h1 class="text-3xl font-bold mb-6">Chat History for {{ username }}</h1>
+
+        {% if queries|length == 0 %}
+        <p class="text-gray-600">No sentiment analysis results yet.</p>
+        {% endif %}
+
+        <div class="space-y-6">
+            {% for q in queries %}
+            <div class="mt-4 border p-4 rounded-lg bg-gray-50" id="query-{{ q.id }}">
+                <p><strong>Text:</strong> {{ q.text }}</p>
+                <p><strong>Sentiment:</strong> {{ q.sentiment }}</p>
+                <p><strong>Country:</strong> {{ q.country or "Unknown" }}</p>
+
+                <details class="mt-2 bg-white border rounded-lg p-3">
+                    <summary class="cursor-pointer font-medium text-blue-700">View full VADER details</summary>
+                    <div class="mt-2 text-sm bg-gray-100 p-3 rounded-lg space-y-1">
+                        <p>Compound: <strong>{{ q.details.get('compound') if q.details else 'N/A' }}</strong></p>
+                        <p>Positive: <strong>{{ q.details.get('pos') if q.details else 'N/A' }}</strong></p>
+                        <p>Negative: <strong>{{ q.details.get('neg') if q.details else 'N/A' }}</strong></p>
+                        <p>Neutral: <strong>{{ q.details.get('neu') if q.details else 'N/A' }}</strong></p>
+                    </div>
+                </details>
+
+                <button onclick="deleteQuery('{{ q.id }}')"
+                    class="mt-2 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
+                    Delete
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        async function deleteQuery(id) {
+            const token = localStorage.getItem("session_token");
+            if (!token) {
+                alert("No session token found!");
+                return;
+            }
+
+            const confirmed = confirm("Are you sure you want to delete this entry?");
+            if (!confirmed) return;
+
+            const response = await fetch(`/delete-query/${id}?token=${token}`, {
+                method: "DELETE"
+            });
+
+            if (response.ok) {
+                const elem = document.getElementById(`query-${id}`);
+                if (elem) elem.remove();
+                alert("Deleted successfully!");
+            } else {
+                const data = await response.json();
+                alert(data.error || "Failed to delete.");
+            }
+        }
+    </script>
+
+</body>
+</html>

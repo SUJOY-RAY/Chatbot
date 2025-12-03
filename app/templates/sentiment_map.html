@@ -7,6 +7,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <script>
+        const sessionToken = localStorage.getItem("session_token");
+        if (!sessionToken) {
+            window.location.href = "/register";
+        }
+    </script>
 
     <style>
         #map {

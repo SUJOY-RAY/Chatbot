@@ -22,9 +22,6 @@ def get_user_by_token(db: Session, token: str):
     return db.query(User).filter(User.session_token == token).first()
 
 def save_query(db, user, text, sentiment, score, ip_address, confidence, details):
-    """
-    Save a new Query in the database with optional geolocation data.
-    """
     loc = ip_to_location(ip_address)
 
     db_query = Query(
@@ -42,7 +39,6 @@ def save_query(db, user, text, sentiment, score, ip_address, confidence, details
         country=loc.get("country") if loc else None,
         city=loc.get("city") if loc else None,
         region=loc.get("region") if loc else None,  # optional
-        # zip=loc.get("zip") if loc else None  # only if your model has zip
     )
 
     db.add(db_query)
@@ -51,4 +47,7 @@ def save_query(db, user, text, sentiment, score, ip_address, confidence, details
 
     return db_query
 
-
+def chat_history(db:Session, token):
+    data = db.query(Query).filter(User.session_token == token)
+    print(data)
+    return data

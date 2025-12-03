@@ -24,7 +24,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(150), nullable=False, index=True)
+    username = Column(String(150), unique=True, nullable=False, index=True)
     session_token = Column(String(150), unique=True, index=True)
     ip_address = Column(String(50))
     created_at = Column(DateTime(timezone=True), server_default=func.now())

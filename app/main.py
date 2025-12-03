@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from ipconverter import ip_to_location
 from database import Query, SessionLocal, init_db
-from crud import create_user, get_user_by_token, save_query
+from crud import create_user, get_user_by_token, save_query, chat_history
 from sentiment import analyze_sentiment
 import os
 
@@ -27,6 +27,7 @@ def get_db():
 def register_form(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
+
 @app.post("/register", response_class=HTMLResponse)
 def register_user(request: Request, username: str = Form(...), db: Session = Depends(get_db)):
     client_host = request.client.host  # get IP address
@@ -39,6 +40,7 @@ def register_user(request: Request, username: str = Form(...), db: Session = Dep
 
 # ---------- Sentiment ----------
 
+
 @app.get("/sentiment-form", response_class=HTMLResponse)
 def sentiment_form(request: Request):
     return templates.TemplateResponse("sentiment_form.html", {
@@ -49,18 +51,23 @@ def sentiment_form(request: Request):
         "error": None
     })
 
+
+def render_error(request: Request, message: str):
+    return templates.TemplateResponse("sentiment_form.html", {
+        "request": request,
+        "error": message
+    })
+
+def verify_user(request: Request, db: Session, token: str):
+    user = get_user_by_token(db, token)
+    if not user:
+        return render_error(request, 'Invalid session token. <a href="/register">Register here</a>')
+    return user
+
 @app.post("/sentiment", response_class=HTMLResponse)
 def sentiment_analysis(request: Request, text: str = Form(...), token: str = Form(...), db: Session = Depends(get_db)):
-    user = get_user_by_token(db, token)
     ip_address = request.client.host  # get IP address
-    if not user:
-        return templates.TemplateResponse("sentiment_form.html", {
-            "request": request,
-            "text": text,
-            "sentiment": None,
-            "score": None,
-            "error": 'Invalid session token. <a href="/register">Register here</a>'
-        })
+    user = verify_user(db=db, token=token, request=request)
     result = analyze_sentiment(text)
     save_query(db, user, text, result["sentiment"], result["score"], ip_address, result["confidence"], result["details"])
 
@@ -102,6 +109,48 @@ def sentiment_map(db: Session = Depends(get_db)):
 @app.get("/about", response_class=HTMLResponse)
 def about_page(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get("/history", response_class=HTMLResponse)
+def history(request: Request, token: str | None = None, db: Session = Depends(get_db)):
+    if token is None:
+        return templates.TemplateResponse("/components/error.html", {
+            "request": request,
+            "error": "Missing session token."
+        })
+
+    user = get_user_by_token(db, token)
+    if not user:
+        return templates.TemplateResponse("error.html", {
+            "request": request,
+            "error": "Invalid session token."
+        })
+
+    queries = (
+        db.query(Query)
+        .filter(Query.user_id == user.id)
+        .order_by(Query.time.desc())
+        .all()
+    )
+
+    return templates.TemplateResponse("history.html", {
+        "request": request,
+        "queries": queries,
+        "username": user.username
+    })
+
+@app.delete("/delete-query/{query_id}")
+def delete_query(query_id: int, token: str, db: Session = Depends(get_db)):
+    user = get_user_by_token(db, token)
+    if not user:
+        return {"error": "Invalid session token."}
+
+    query = db.query(Query).filter(Query.id == query_id, Query.user_id == user.id).first()
+    if not query:
+        return {"error": "Query not found."}
+
+    db.delete(query)
+    db.commit()
+    return {"success": True}
 
 # ---------- Home ----------
 @app.get("/", response_class=HTMLResponse)

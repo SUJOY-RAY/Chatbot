@@ -28,11 +28,7 @@
                 Sentiment Analysis
             </h2>
 
-            {% if error %}
-            <p class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-center">
-                {{ error | safe }}
-            </p>
-            {% endif %}
+            {% include "components/error.html" %}
 
             <form action="/sentiment" method="post" class="flex flex-col gap-4">
 
