@@ -18,6 +18,7 @@ def create_user(db: Session, username: str, ip_address: str):
     db.refresh(user)
     return user
 
+
 def get_user_by_token(db: Session, token: str):
     return db.query(User).filter(User.session_token == token).first()
 

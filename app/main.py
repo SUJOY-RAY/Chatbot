@@ -47,7 +47,7 @@ def sentiment_form(request: Request):
 
 
 def render_error(request: Request, message: str):
-    return templates.TemplateResponse("component/error.html", {
+    return templates.TemplateResponse("components/error.html", {
         "request": request,
         "error": message
     })
