@@ -190,10 +190,9 @@ http://127.0.0.1:8000/
 ## Sentiment
 
 | Method | Endpoint          | Description              |
-|:------ |: -----------------|:------------------------ |
-| POST   | `/sentiment`      | Analyze sentiment & save |
-| GET    | `/sentiment-form` | Text input form          |
-
+|:------|:-----------------|:------------------------|
+| POST  | `/sentiment`      | Analyze sentiment & save |
+| GET   | `/sentiment-form` | Text input form          |
 ## History
 
 | Method | Endpoint                       | Description       |
