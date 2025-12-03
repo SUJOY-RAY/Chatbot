@@ -143,10 +143,14 @@ cd <project-folder>
 python -m venv .venv
 
 Linux
-- source .venv/bin/activate      
+```bash
+source .venv/bin/activate      
 Windows
-- .\.venv\Scripts\activate
+```
 
+```powershell
+.\.venv\Scripts\activate
+```
 
 3. Install dependencies
 
