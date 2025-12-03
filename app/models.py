@@ -12,14 +12,6 @@ class SentimentResponse(BaseModel):
     sentiment: str
     score: float
 
-class IPLocation:
-    lat: Optional[float] = None       # Latitude
-    lon: Optional[float] = None       # Longitude
-    country: Optional[str] = None     # Country name
-    city: Optional[str] = None        # City name
-    zip: Optional[str] = None         # ZIP code
-
-
 class SentimentQueryOut(BaseModel):
     lat: Optional[float] = None
     lng: Optional[float] = None
