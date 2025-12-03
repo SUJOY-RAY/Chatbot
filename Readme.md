@@ -2,14 +2,40 @@
 
 The app allows users to:
 
-✅ Register and receive a session token
-✅ Submit text for sentiment analysis
-✅ Track location of requests via IP
-✅ Save/query sentiment history
-✅ View time-based sentiment trends
-✅ Plot a global map of sentiment data
-✅ Delete items from history
-✅ View details such as confidence and sentiment breakdown
+The application provides the following capabilities:
+
+- **User Registration**
+  - Simple username-based registration
+  - Generates a secure session token
+  - Stores user's IP address at registration
+
+- **Sentiment Analysis**
+  - Submit text and receive sentiment classification
+  - Uses VADER with enhanced cleaning and custom thresholds
+  - Returns compound score, confidence score, and full sentiment breakdown
+
+- **IP-Based Location Tracking**
+  - Converts IP → Country, City, Latitude, Longitude, Postal Code
+  - Saves location alongside each analyzed query
+
+- **Sentiment History**
+  - Stores every sentiment request per user
+  - Allows viewing full query history
+  - Supports deleting individual history items
+
+- **Time-Based Sentiment Trends**
+  - Generates a Matplotlib line graph of sentiment over time
+  - Points colored by country/city
+  - Served as a PNG through FastAPI
+
+- **Global Sentiment Map**
+  - API exposes query locations + sentiment metadata as JSON
+  - Leaflet.js frontend renders an interactive world map
+
+- **Detailed Analysis View**
+  - Shows cleaned text, original text, sentiment label
+  - Displays VADER neg/neu/pos/compound
+  - Includes confidence score for each prediction
 
 # Features
 ## 🔐 User System
