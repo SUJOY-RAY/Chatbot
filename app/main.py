@@ -143,7 +143,8 @@ def sentiment_map(db: Session = Depends(get_db)):
             "score": float(q.score) if q.score is not None else 0.0,
             "city": q.city if q.city else "Unknown City",
             "country": q.country if q.country else "Unknown Country",
-            "text": q.text if q.text else "No text"
+            "text": q.text if q.text else "No text",
+            "uid": q.user_id
         })
 
     return result
