@@ -154,8 +154,9 @@ Windows
 
 3. Install dependencies
 
+```powershell
 pip install -r requirements.txt
-
+```
 4. Download VADER model 
 *(Not required manually — app downloads automatically, but available if needed)*
 
