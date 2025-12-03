@@ -200,7 +200,7 @@ http://127.0.0.1:8000/
 | GET    | `/history?token=XYZ`           | View user history |
 | DELETE | `/delete-query/{id}?token=XYZ` | Delete query      |
 
-![Chat history](images/image.png)
+![Chat history](images/chat-history.png.png)
 
 ## Trend Graph
 
