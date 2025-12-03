@@ -75,39 +75,6 @@ def sentiment_analysis(request: Request, text: str = Form(...), token: str = For
     print(data)
     return templates.TemplateResponse("sentiment_form.html", data)
 
-# @app.post("/sentiment", response_class=HTMLResponse)
-# def sentiment_analysis(
-#     request: Request,
-#     text: str = Form(...),
-#     token: str = Form(...),
-#     db: Session = Depends(get_db)
-# ):
-#     user = get_user_by_token(db, token)
-#     client_ip = request.client.host
-
-#     if not user:
-#         return templates.TemplateResponse("sentiment_form.html", {
-#             "request": request,
-#             "text": text,
-#             "sentiment": None,
-#             "score": None,
-#             "error": 'Invalid session token. <a href="/register">Identify here</a>'
-#         })
-
-#     result = analyze_sentiment(text)
-#     save_query(text = text, sentiment=result["sentiment"], score = result["score"], confidence=result["confidence"], details=result["details"], user = user, ip_address=client_ip )
-
-#     return templates.TemplateResponse("sentiment_form.html", {
-#         "request": request,
-#         "text": text,
-#         "sentiment": result["sentiment"],
-#         "score": result["score"],
-#         "confidence": result["confidence"],   # added
-#         "details": result["details"],         # added
-#         "error": None
-#     })
-
-
 @app.get("/map")
 def map_page(request: Request):
     return templates.TemplateResponse("sentiment_map.html", {"request": request})
@@ -133,8 +100,8 @@ def sentiment_map(db: Session = Depends(get_db)):
     return result
 
 @app.get("/about", response_class=HTMLResponse)
-def about_page():
-    return templates.TemplateResponse("about.html")
+def about_page(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
 
 # ---------- Home ----------
 @app.get("/", response_class=HTMLResponse)

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About - Sentiment Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+    {% include "navbar.html" %}
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-8 shadow">
+
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl font-bold">About Sentiment Analyzer</h1>
+            <p class="mt-2 text-blue-100">Analyze text sentiment with accuracy and ease</p>
+        </div>
+
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Project Overview</h2>
+            <p class="text-gray-700 leading-relaxed">
+                This project is a web application built with <strong>FastAPI</strong> that allows users to submit text
+                and get detailed sentiment analysis results.
+                It uses the <strong>VADER Sentiment Analyzer</strong> from NLTK to classify text into categories like
+                <em>Very Positive</em>, <em>Positive</em>, <em>Neutral</em>, <em>Negative</em>, and <em>Very
+                    Negative</em>.
+            </p>
+            <p class="text-gray-700 leading-relaxed mt-4">
+                Additionally, the application can act as an <strong>API</strong> to programmatically test comments or
+                text for sentiment analysis, making it useful for integration with other applications or automated
+                workflows.
+            </p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Key Features</h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>User registration with session tokens for secure access and rate limiting.</li>
+                <li>Submit text and receive detailed sentiment analysis with a confidence score.</li>
+                <li>Tracks user IP and converts it to location for map visualization.</li>
+                <li>Stores past queries in a database for history and analytics.</li>
+                <li>Interactive map view of sentiment data across different locations.</li>
+                <li>Clean, responsive interface powered by <strong>Tailwind CSS</strong>.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold text-blue-700 mb-4">Get Started</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                To get started, you can <a href="/" class="text-blue-600 hover:underline">return to the home page</a> or
+                <a href="/register" class="text-blue-600 hover:underline">register a new account</a> to start analyzing
+                text.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-6 mt-12 text-center text-gray-600">
+        &copy; 2025 Sentiment Analyzer. All rights reserved.
+    </footer>
+
+</body>
+
+</html>
