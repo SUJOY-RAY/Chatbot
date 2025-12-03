@@ -21,11 +21,11 @@ IP address stored at registration.
 ## 📝 Sentiment Analysis (VADER)
 
 1. Cleans noisy input
-- Removes URLs
+    1. Removes URLs
 
-- Normalizes punctuation
+    2. Normalizes punctuation
 
-- Reduces stretched words (“soooo” → “soo”)
+    3. Reduces stretched words (“soooo” → “soo”)
 
 
 2. Classifies sentiment using enhanced thresholds:
