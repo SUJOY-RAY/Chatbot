@@ -1,11 +1,10 @@
 # Sentiment Analysis Web App
 
-# LINK OF THE WEBSITE
+## LINK OF THE WEBSITE
 ```URL
 https://chatbot-zq1h.onrender.com/sentiment-form
 ```
-*(First load takes time, it is deployed on a free web hosting service())*
-# https://chatbot-zq1h.onrender.com/sentiment-form
+*(First load takes time, it is deployed on a free web hosting service(render))*
 
 
 The application provides the following capabilities:
